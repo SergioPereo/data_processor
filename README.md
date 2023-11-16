@@ -52,7 +52,7 @@ sudo apt install gzip -y
 sudo apt install tar -y
 ```
 
-Download the zip from this [link](https://pip.pypa.io/en/stable/).
+Download the zip from this [link](https://drive.google.com/file/d/1ZmXKz_2d84EUg6cDOAuQ8NeBCede2C_w/view?usp=sharing).
 Place it in the project folder and extract it (it's around 1.7GB)
 
 ```bash
