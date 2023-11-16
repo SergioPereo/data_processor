@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+  datadb:
+    image: scylladb/scylla
+    container_name: datadb
+    ports:
+      - 9042:9042
+    command: --smp 1 --memory 4G
+  dataprocessor:
+    image: sergiopereo/dataprocessor
+    container_name: dataprocessor
+    ports:
+      - 8888:8888

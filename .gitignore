@@ -1,0 +1,9 @@
+/data
+processor.py
+testing.py
+__pycache__
+dataenv
+docker-compose.dev.yml
+Dockerfile
+local_processor_docker.py
+.ipynb_checkpoints

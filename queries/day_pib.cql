@@ -1,0 +1,1 @@
+SELECT SUM(quantity), SUM(price)  FROM transactions WHERE date >= '2023-10-21 00:00:00+0200' AND  date < '2023-10-22 00:00:00+0200';
