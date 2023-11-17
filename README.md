@@ -115,8 +115,13 @@ And finally just run the local_processor.py
 ```bash
 python3 local_processor.py
 ```
+This will start processing the files in data. If you want to visualize the data use the following command to start a jupyter server (start it once the processor finished)
 
-This will start processing the files in data. Once the processor finished we can see the loaded data in scylla. For that we need to enter the scylla service using:
+```bash
+jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' visualizations.ipynb
+```
+
+Once the processor finished we can see the loaded data in scylla. For that we need to enter the scylla service using:
 
 ```bash
 docker exec -it datadb cqlsh
