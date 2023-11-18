@@ -17,6 +17,7 @@ This code answers questions that I have about an actual economy:
 - How can I compare the demand of these items with respect of the entire demand of objects?
 
 - How can be done the Consumer Price Index of that set of items?
+    - I calculate the CPI using [this](https://www.indeed.com/career-advice/career-development/how-to-calculate-cpi).
 
 - How does the demand of this items look
 
