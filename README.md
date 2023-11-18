@@ -6,11 +6,19 @@ This is a script made for the transforming part of my ETL made for my NoSQL lect
 
 This code answers questions that I have about an actual economy:
 
+- How to calculate the PIB of a day?
+
 - How is the PIB doing inside the economy?
 
-- How many transactions are being made of an specific items list a day? Which type of transaction?
+- How many transactions are being made of an specific items list a day? 
+
+- How to divide in buys and sells this transactions?
 
 - How can I compare the demand of these items with respect of the entire demand of objects?
+
+- How can be done the Consumer Price Index of that set of items?
+
+- How does the demand of this items look
 
 ## Installation
 
@@ -118,8 +126,10 @@ python3 local_processor.py
 This will start processing the files in data. If you want to visualize the data use the following command to start a jupyter server (start it once the processor finished)
 
 ```bash
-jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' visualizations.ipynb
+jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
 ```
+
+This will start a jupyter notebook server on localhost:8080 open it on your desired browser. There is a file named visualizations.ipynb. This file contains the answers to the questions above.
 
 Once the processor finished we can see the loaded data in scylla. For that we need to enter the scylla service using:
 
