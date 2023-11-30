@@ -36,6 +36,6 @@ because is made thinking in a cloud based environment.
 It also uses ScyllaDB instead of a Cassandra. The main reason is that I want to learn more about Scylla and make a test of it. 
 Obviously I want to do that because is a implementation of Cassandra made with C++ and, as they stated in their website,
 has a better performance that Cassandra. If you want to learn more about it go and check this [link](https://www.scylladb.com/scylladb-vs-cassandra/).
-There is more of it than this repo shows. But for the reasons above I decide to leave it like this. Was a lot of fun, I really enjoy the journey of this project.
+There is more of it than this repo shows. But for the reasons above I decided to leave it like this. Was a lot of fun, I really enjoy the journey of this project.
 Big shout out to my professor Miguel Escalante, I learn a lot from him and this project. Thank you for being my partner!
 
