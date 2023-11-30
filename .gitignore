@@ -8,3 +8,7 @@ Dockerfile
 local_processor_docker.py
 .ipynb_checkpoints
 actual_visualizations.ipynb
+recipes.json
+neo_extractor.py
+archive.yml
+data.zip

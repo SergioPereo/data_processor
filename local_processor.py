@@ -6,10 +6,11 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from os import listdir
 from os.path import isfile, join
+from neo4j import GraphDatabase
+import json
 
 import datetime
 import traceback
-import pandas as pd
 
 PATH = "./data/"
 
@@ -176,6 +177,69 @@ def approximate_and_make_pibs_local(session):
         print(f'{i+1}/{total} PIB processing')
     app.stop()
 
-with ScyllaManager(models=[Market, Transactions, PIB]) as scylla_manager:
-    approximate_and_make_pibs_local(scylla_manager.session)
-    #approximate_and_store_transactions_local()
+class NeoManager():
+    # Host to connect
+    
+    def __init__(self) -> None:
+        # Do connection
+        self.driver = GraphDatabase.driver(uri="bolt://localhost:7687")
+        
+    # Specifications for the context logic
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_value, tb):
+        self.close()
+        if exc_type is not None:
+            traceback.print_exception(exc_type, exc_value, tb)
+        return True
+
+    # Handler for registering the connection
+    def close(self):
+        self.driver.close()
+
+def get_final():
+    data = [f for f in listdir(PATH) if isfile(join(PATH, f)) and f.endswith(".json")]
+    return data[-1]
+
+def get_prices():
+    final_prices = get_final()
+    final_prices = open(f'{PATH}{final_prices}','r')
+    data = json.load(final_prices)
+    final_dict = {}
+    for item in data:
+        final_dict[item["id"]]={"buys":item["buys"]["unit_price"], "sells":item["sells"]["unit_price"]}
+    return final_dict
+
+def dump_graph(manager: NeoManager):
+    file = open("recipes.json", "r")
+    data = json.load(file)
+    prices = get_prices()
+    query = ("MERGE (n:Item {id: $id, buy_price: $buy, sell_price: $sell})"
+             "RETURN n.id AS node_id")
+    query_edge = ("MATCH (final: Item {id: $final_id}),(i:Item {id: $ingredient_id}) "
+            "MERGE (final)-[c:crafts_of]->(i)"
+            "SET c.count=$count")
+    #print(type(prices))
+    #dump nodes
+    with manager.driver.session() as session:
+        for item in data:
+            if item["id"] in prices:
+                session.run(query, id=item["id"], buy=prices[item["id"]]["buys"], sell=prices[item["id"]]["sells"])
+            else:
+                session.run(query, id=item["id"], buy=100000000, sell=100000000)
+            for ingredient in item["ingredients"]:
+                if ingredient["item_id"] in prices:
+                    session.run(query, id=ingredient["item_id"], buy=prices[ingredient["item_id"]]["buys"], sell=prices[ingredient["item_id"]]["sells"])
+                else:
+                    session.run(query, id=ingredient["item_id"], buy=100000000, sell=100000000)
+            for ingredient in item["ingredients"]:
+                session.run(query_edge, final_id=item["id"], ingredient_id=ingredient["item_id"], count=ingredient["count"])
+
+if __name__ == "__main__":
+    with ScyllaManager(models=[Market, Transactions, PIB]) as scylla_manager:
+        approximate_and_make_pibs_local(scylla_manager.session)
+        #approximate_and_store_transactions_local()
+
+    with NeoManager() as neo_manager:
+        dump_graph(neo_manager)

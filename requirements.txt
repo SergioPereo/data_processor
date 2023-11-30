@@ -58,6 +58,9 @@ mistune==3.0.2
 nbclient==0.9.0
 nbconvert==7.11.0
 nbformat==5.9.2
+neo4j==5.12.0
+neobolt==1.7.17
+neomodel==5.2.0
 nest-asyncio==1.5.8
 notebook==7.0.6
 notebook_shim==0.2.3
